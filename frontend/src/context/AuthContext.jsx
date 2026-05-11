@@ -1,5 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
+
+const HTTP_UNAUTHORIZED = 401;
 
 const AuthContext = createContext(null);
 
@@ -18,7 +20,8 @@ export function AuthProvider({ children }) {
       })
       .catch((err) => {
         // 401 here just means "no active session" — that's expected, not an error.
-        if (err?.response?.status && err.response.status !== 401) {
+        const status = err?.response?.status;
+        if (status && status !== HTTP_UNAUTHORIZED) {
           console.warn("Auth probe failed:", err);
         }
         if (mounted) setUser(false);
@@ -32,13 +35,13 @@ export function AuthProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     const res = await api.post("/auth/login", { email, password });
     setUser(res.data);
     return res.data;
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await api.post("/auth/logout");
     } catch (err) {
@@ -46,13 +49,15 @@ export function AuthProvider({ children }) {
       console.warn("Logout request failed; clearing client state anyway", err);
     }
     setUser(false);
-  };
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setUser }}>
-      {children}
-    </AuthContext.Provider>
+  // Memoize so context consumers don't re-render on every AuthProvider render.
+  const value = useMemo(
+    () => ({ user, loading, login, logout, setUser }),
+    [user, loading, login, logout]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

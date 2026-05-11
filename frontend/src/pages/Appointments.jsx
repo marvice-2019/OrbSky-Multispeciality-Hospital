@@ -9,6 +9,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
 
+const STEP_DOT_CLASSES = {
+  done: "bg-secondary text-white",
+  current: "bg-primary text-white",
+  todo: "bg-white border border-border text-foreground/50",
+};
+
 const STEPS = ["Department", "Doctor", "Date & Time", "Your Details"];
 const TIME_SLOTS = ["09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"];
 
@@ -107,12 +113,7 @@ export default function AppointmentsPage() {
         <ol className="mt-8 grid grid-cols-4 gap-2" data-testid="appointment-stepper">
           {STEPS.map((label, i) => {
             const state = stepState(i, step);
-            const dotCls =
-              state === "done"
-                ? "bg-secondary text-white"
-                : state === "current"
-                ? "bg-primary text-white"
-                : "bg-white border border-border text-foreground/50";
+            const dotCls = STEP_DOT_CLASSES[state];
             const labelCls = state === "current" ? "text-foreground" : "text-foreground/55";
             return (
               <li key={label} className="flex items-center gap-2">
