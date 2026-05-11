@@ -1,0 +1,149 @@
+{
+  "theme": "LIGHT",
+  "archetype": "Organic & Earthy / Clinical Modern",
+  "design_philosophy": {
+    "core_principles": [
+      "Clean, clinical, and modern - not corporate generic.",
+      "Trust-first: Highlight credentials, reviews, and 24/7 availability.",
+      "Card-based layouts with soft, diffuse shadows to lift content above the background.",
+      "Clear visual hierarchy: Primary actions (Book Appointment) in Trust Blue, Emergency actions in Emergency Red."
+    ]
+  },
+  "colors": {
+    "primary": {
+      "DEFAULT": "#0A6ABF",
+      "hover": "#085294",
+      "light": "#E6F0F9",
+      "description": "Trust Blue - Used for main primary buttons (Book Appointment), major headings, active states."
+    },
+    "secondary": {
+      "DEFAULT": "#00B4A6",
+      "hover": "#009085",
+      "light": "#E5F7F6",
+      "description": "Health Teal - Used for secondary actions, health indicators, icons, checkmarks, trust badges."
+    },
+    "accent": {
+      "DEFAULT": "#E84040",
+      "hover": "#C93030",
+      "light": "#FDECEC",
+      "description": "Emergency Red - ONLY for emergency CTAs, 24/7 badges, ambulance, critical alerts."
+    },
+    "background": {
+      "DEFAULT": "#F7FAFF",
+      "paper": "#FFFFFF",
+      "muted": "#EDF2F7",
+      "description": "Backgrounds - F7FAFF for app background, pure white for cards and elevated surfaces."
+    },
+    "text": {
+      "DEFAULT": "#1A1A2E",
+      "muted": "#4A5568",
+      "light": "#A0AEC0",
+      "description": "Text colors - High contrast dark navy/black for readability."
+    },
+    "border": {
+      "DEFAULT": "#E2E8F0"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "'Plus Jakarta Sans', sans-serif",
+      "body": "'Inter', sans-serif",
+      "mono": "'Roboto Mono', monospace"
+    },
+    "scales": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-bold",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-bold",
+      "h3": "text-xl sm:text-2xl tracking-tight font-semibold",
+      "h4": "text-lg sm:text-xl font-semibold",
+      "body": "text-base leading-relaxed",
+      "small": "text-sm",
+      "data": "text-sm sm:text-base font-mono font-medium tracking-tight"
+    },
+    "rules": [
+      "Never center text by default. Left-align for clinical precision unless it's a hero or specific metric.",
+      "Use Roboto Mono for any medical data, phone numbers, statistics, or metrics."
+    ]
+  },
+  "spacing_and_layout": {
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "section_padding": "py-16 md:py-24 lg:py-32",
+    "card_padding": "p-6 sm:p-8",
+    "gap": "gap-6 md:gap-8",
+    "grid_modes": {
+      "marketing": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8",
+      "dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+      "specialities": "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+    },
+    "border_radius": "rounded-2xl for large cards, rounded-xl for buttons/inputs, rounded-3xl for image containers."
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all active:scale-95 px-8 py-4 rounded-xl font-semibold",
+      "emergency": "bg-accent text-white hover:bg-accent-hover shadow-lg shadow-accent/20 transition-all active:scale-95 px-8 py-4 rounded-xl font-bold animate-pulse-slow",
+      "secondary": "bg-secondary text-white hover:bg-secondary-hover transition-all active:scale-95 px-6 py-3 rounded-xl font-medium",
+      "outline": "border-2 border-primary text-primary hover:bg-primary-light transition-all px-6 py-3 rounded-xl font-medium"
+    },
+    "cards": {
+      "default": "bg-white rounded-2xl border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all",
+      "interactive": "hover:-translate-y-1 cursor-pointer"
+    },
+    "header": {
+      "style": "sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-border/50 shadow-sm"
+    }
+  },
+  "images": {
+    "strategy": "Real hospital interior/exterior shots. Doctors in white coats with diverse Indian patients. No cheesy stock.",
+    "urls": {
+      "hero_background": {
+        "url": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Modern hospital reception",
+        "placement": "Home page hero background (needs strong white or primary color overlay/gradient for text readability)"
+      },
+      "doctor_patient_1": {
+        "url": "https://images.pexels.com/photos/14558560/pexels-photo-14558560.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "alt": "Indian doctor checking patient",
+        "placement": "About Us or Why Choose Us section"
+      },
+      "doctor_patient_2": {
+        "url": "https://images.pexels.com/photos/18870282/pexels-photo-18870282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "alt": "Doctor examining senior patient",
+        "placement": "Services or Specialities page highlight"
+      },
+      "female_doctor": {
+        "url": "https://images.unsplash.com/photo-1631558554226-fb65b25aa939?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Female doctor in coat",
+        "placement": "Doctors directory header or individual doctor profile"
+      },
+      "hospital_exterior": {
+        "url": "https://images.unsplash.com/photo-1776659959825-59d28b50dd65?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Modern hospital exterior building",
+        "placement": "Contact page or About page building showcase"
+      },
+      "ambulance": {
+        "url": "https://images.pexels.com/photos/28123775/pexels-photo-28123775.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "alt": "Emergency ambulance",
+        "placement": "Emergency banner background or Emergency services card"
+      }
+    }
+  },
+  "icons": {
+    "library": "lucide-react",
+    "instructions": "Use lucide-react for all icons. Ensure stroke-width is consistent (usually 2). Use Health Teal (#00B4A6) for positive/health icons, Trust Blue (#0A6ABF) for structural icons, Emergency Red (#E84040) for urgent/emergency icons."
+  },
+  "motion": {
+    "page_transitions": "Subtle fade in and slide up.",
+    "hover_effects": "Cards lift up (-translate-y-1) and shadows expand. Buttons scale down slightly on active (active:scale-95).",
+    "scrolling": "Smooth scroll enabled for anchor links."
+  },
+  "accessibility": {
+    "contrast": "Ensure white text on Primary (#0A6ABF) and Accent (#E84040) meets WCAG standards. Check contrast for Secondary (#00B4A6) with white text, if it fails, use it as a background for dark text or use as an icon/border color.",
+    "testing": "All interactive elements must include a data-testid attribute in kebab-case (e.g., data-testid='book-appointment-btn', data-testid='emergency-call-btn')."
+  },
+  "specific_instructions": {
+    "hero_section": "Hero must feature headline 'Comprehensive Care, Around the Clock — JP Nagar's Trusted Multispeciality Hospital'. Include a Trust Strip below it (4.5★ Google, 24/7 Open, 20+ Specialities, Ambulance).",
+    "emergency_banner": "Must be highly visible. Background Emergency Red. Include '080 6958 9900' formatted with Roboto Mono font. Add click-to-call functionality.",
+    "appointments_flow": "Multi-step form using Shadcn components. Steps: 1. Department 2. Doctor 3. Date/Time 4. Patient Details.",
+    "admin_dashboard": "Use 'Control Room' grid layout for the admin dashboard. High data density, sharp tables, Shadcn charts. Distinct from the marketing pages.",
+    "whatsapp_cta": "Floating button in bottom right corner using brand green/teal or WhatsApp's native color, persistent across all pages."
+  }
+}
