@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Award, Calendar, ChevronRight, Stethoscope } from "lucide-react";
 import { api } from "@/lib/api";
 import { resolvePhotoUrl } from "@/lib/helpers";
@@ -9,9 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const PLACEHOLDER = "https://images.unsplash.com/photo-1631558554226-fb65b25aa939?crop=entropy&cs=srgb&fm=jpg&q=85&w=800";
 
 export default function DoctorsPage() {
+  const [params, setParams] = useSearchParams();
   const [doctors, setDoctors] = useState([]);
   const [specialities, setSpecialities] = useState([]);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(params.get("dept") || "all");
 
   useEffect(() => {
     api.get("/doctors")
@@ -21,6 +22,16 @@ export default function DoctorsPage() {
       .then((r) => setSpecialities(r.data || []))
       .catch((err) => console.warn("Failed to load specialities", err));
   }, []);
+
+  const onFilterChange = (v) => {
+    setFilter(v);
+    if (v === "all") {
+      params.delete("dept");
+    } else {
+      params.set("dept", v);
+    }
+    setParams(params, { replace: true });
+  };
 
   const filtered = useMemo(() => {
     if (filter === "all") return doctors;
@@ -39,7 +50,7 @@ export default function DoctorsPage() {
             Senior consultants across every department, with a combined 200+ years of clinical experience.
           </p>
           <div className="mt-8 max-w-xs">
-            <Select value={filter} onValueChange={setFilter}>
+            <Select value={filter} onValueChange={onFilterChange}>
               <SelectTrigger className="bg-white h-11" data-testid="doctor-filter-trigger">
                 <SelectValue placeholder="Filter by department" />
               </SelectTrigger>

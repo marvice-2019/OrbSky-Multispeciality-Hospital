@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Phone, Star, ShieldCheck, Clock, Stethoscope, Ambulance, Microscope, HeartPulse, Wallet, ChevronRight, MapPin } from "lucide-react";
 import { api, HOSPITAL } from "@/lib/api";
 import { iconFor } from "@/lib/icons";
+import { detailsFor } from "@/lib/specialityDetails";
 import EmergencyBanner from "@/components/EmergencyBanner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -30,7 +31,9 @@ export default function HomePage() {
       .catch((err) => console.warn("Failed to load reviews", err));
   }, []);
 
-  const featured = specialities.filter((s) => s.featured).slice(0, 6);
+  const featured = useMemo(() => specialities.filter((s) => s.featured).slice(0, 6), [specialities]);
+  const featuredIds = useMemo(() => new Set(featured.map((s) => s.id)), [featured]);
+  const nonFeatured = useMemo(() => specialities.filter((s) => !featuredIds.has(s.id)), [specialities, featuredIds]);
   const carousel = specialities.slice(0, 10);
 
   return (
@@ -134,27 +137,68 @@ export default function HomePage() {
       {/* SPECIALITIES GRID (FEATURED 6) */}
       <section className="section-pad">
         <div className="container-narrow">
-          <SectionHeader eyebrow="Specialities" title="Care that's deeply specialised." subtitle="From routine consultations to complex interventions — explore our most-asked departments." />
+          <SectionHeader eyebrow="All 20+ Specialities" title="Care that's deeply specialised." subtitle="From routine consultations to complex interventions — explore the full clinical scope under one roof." />
+
+          {/* Featured 6 — richer cards with top conditions */}
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featured.map((s) => {
               const Ico = iconFor(s.icon);
+              const d = detailsFor(s.slug);
               return (
-                <div key={s.id} className="card-soft p-7 hover:-translate-y-1 transition-transform group" data-testid={`speciality-card-${s.slug}`}>
+                <Link
+                  key={s.id}
+                  to={`/appointments?dept=${encodeURIComponent(s.name)}`}
+                  className="card-soft p-7 hover:-translate-y-1 transition-transform group block"
+                  data-testid={`speciality-card-${s.slug}`}
+                >
                   <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 grid place-items-center mb-4 group-hover:scale-110 transition-transform">
                     <Ico className="h-7 w-7 text-primary" />
                   </div>
                   <div className="font-heading font-semibold text-lg">{s.name}</div>
                   <p className="text-sm text-foreground/65 mt-2 leading-relaxed">{s.description}</p>
-                  <Link to="/specialities" className="mt-4 inline-flex items-center text-sm font-semibold text-primary hover:gap-2 transition-all">
-                    Know More <ChevronRight className="h-4 w-4" />
-                  </Link>
-                </div>
+                  {d.conditions.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {d.conditions.slice(0, 3).map((c) => (
+                        <span key={c} className="text-[11px] px-2 py-0.5 rounded bg-primary/5 text-foreground/70 border border-primary/10">{c}</span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="mt-4 inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                    Book consultation <ChevronRight className="h-4 w-4" />
+                  </div>
+                </Link>
               );
             })}
           </div>
-          <div className="mt-10 text-center">
+
+          {/* Compact tile grid — remaining specialities (everything not in featured) */}
+          {nonFeatured.length > 0 && (
+            <div className="mt-10">
+              <div className="text-xs uppercase tracking-[0.2em] font-semibold text-foreground/55 mb-4">Also at OrbSky</div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                {nonFeatured.map((s) => {
+                  const Ico = iconFor(s.icon);
+                  return (
+                    <Link
+                      key={s.id}
+                      to="/specialities"
+                      className="group flex items-center gap-3 p-3.5 rounded-xl border border-border/60 hover:border-primary/30 hover:bg-primary/5 transition-colors bg-white"
+                      data-testid={`speciality-tile-${s.slug}`}
+                    >
+                      <div className="h-9 w-9 shrink-0 rounded-lg bg-primary/10 grid place-items-center group-hover:bg-primary/15 transition-colors">
+                        <Ico className="h-4.5 w-4.5 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium leading-tight">{s.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-12 text-center">
             <Button asChild variant="outline" className="border-primary/30 text-primary hover:bg-primary/5">
-              <Link to="/specialities" data-testid="view-all-specialities">View all 20 specialities</Link>
+              <Link to="/specialities" data-testid="view-all-specialities">Explore all specialities in detail</Link>
             </Button>
           </div>
         </div>
