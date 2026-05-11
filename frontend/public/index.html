@@ -24,6 +24,80 @@
         Learn how to configure a non-root public URL by running `npm run build`.
         -->
         <title>OrbSky Multispeciality Hospital · JP Nagar, Bengaluru</title>
+
+        <!-- Open Graph / social preview -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="OrbSky Multispeciality Hospital · JP Nagar, Bengaluru" />
+        <meta property="og:description" content="JP Nagar's trusted 24/7 multispeciality hospital. 20+ specialities, senior consultants, ambulance on call. 4.5★ on Google." />
+        <meta property="og:image" content="/assets/logo.png" />
+        <meta name="twitter:card" content="summary" />
+
+        <!-- JSON-LD: Schema.org Hospital — local SEO / Google rich results -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Hospital",
+          "name": "OrbSky Multispeciality Hospital",
+          "url": "https://orbskyhospital.com",
+          "logo": "/assets/logo.png",
+          "image": "/assets/logo.png",
+          "telephone": "+91-80-6958-9900",
+          "email": "info@orbskyhospital.com",
+          "priceRange": "₹₹",
+          "openingHours": "Mo-Su 00:00-23:59",
+          "medicalSpecialty": [
+            "Cardiology", "Oncology", "Orthopaedics", "Maternity", "Paediatrics",
+            "Neurology", "Dental", "Dermatology", "Emergency", "Gastroenterology",
+            "General Surgery", "Diagnostic Imaging", "Laboratory", "X-Ray", "Pharmacy"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "14, 13th Main, Puttenahalli Rd, JP Nagar 7th Phase",
+            "addressLocality": "Bengaluru",
+            "addressRegion": "Karnataka",
+            "postalCode": "560078",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "12.8932",
+            "longitude": "77.5829"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.5",
+            "reviewCount": "366",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "availableService": [
+            { "@type": "MedicalProcedure", "name": "24/7 Emergency Care" },
+            { "@type": "MedicalProcedure", "name": "Ambulance Service" },
+            { "@type": "MedicalProcedure", "name": "ICU" },
+            { "@type": "MedicalProcedure", "name": "Diagnostic Imaging" },
+            { "@type": "MedicalProcedure", "name": "Maternity & Delivery" }
+          ]
+        }
+        </script>
+
+        <!-- JSON-LD: Organization fallback -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "OrbSky Multispeciality Hospital",
+          "url": "https://orbskyhospital.com",
+          "logo": "/assets/logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-80-6958-9900",
+            "contactType": "customer service",
+            "areaServed": "IN",
+            "availableLanguage": ["en", "kn", "hi"]
+          }
+        }
+        </script>
+
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
     </head>
