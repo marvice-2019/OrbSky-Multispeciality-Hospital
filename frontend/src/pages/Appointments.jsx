@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Check, ChevronLeft, ChevronRight, CalendarDays, Clock4, Phone, MessageCircle } from "lucide-react";
 import { api, HOSPITAL, formatApiErrorDetail } from "@/lib/api";
+import { stepState } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -32,12 +33,16 @@ export default function AppointmentsPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    api.get("/specialities").then((r) => setSpecs(r.data || [])).catch(() => {});
+    api.get("/specialities")
+      .then((r) => setSpecs(r.data || []))
+      .catch((err) => console.warn("Failed to load specialities", err));
   }, []);
 
   useEffect(() => {
     if (!data.department) return;
-    api.get(`/doctors?department=${encodeURIComponent(data.department)}`).then((r) => setDoctors(r.data || [])).catch(() => {});
+    api.get(`/doctors?department=${encodeURIComponent(data.department)}`)
+      .then((r) => setDoctors(r.data || []))
+      .catch((err) => console.warn("Failed to load doctors", err));
   }, [data.department]);
 
   // Hydrate doctor name when arriving with ?doctor=
@@ -100,16 +105,24 @@ export default function AppointmentsPage() {
 
         {/* Stepper */}
         <ol className="mt-8 grid grid-cols-4 gap-2" data-testid="appointment-stepper">
-          {STEPS.map((label, i) => (
-            <li key={label} className="flex items-center gap-2">
-              <div className={`h-8 w-8 rounded-full grid place-items-center text-xs font-bold ${
-                i < step ? "bg-secondary text-white" : i === step ? "bg-primary text-white" : "bg-white border border-border text-foreground/50"
-              }`}>
-                {i < step ? <Check className="h-4 w-4" /> : i + 1}
-              </div>
-              <div className={`text-xs sm:text-sm font-medium hidden sm:block ${i === step ? "text-foreground" : "text-foreground/55"}`}>{label}</div>
-            </li>
-          ))}
+          {STEPS.map((label, i) => {
+            const state = stepState(i, step);
+            const dotCls =
+              state === "done"
+                ? "bg-secondary text-white"
+                : state === "current"
+                ? "bg-primary text-white"
+                : "bg-white border border-border text-foreground/50";
+            const labelCls = state === "current" ? "text-foreground" : "text-foreground/55";
+            return (
+              <li key={label} className="flex items-center gap-2">
+                <div className={`h-8 w-8 rounded-full grid place-items-center text-xs font-bold ${dotCls}`}>
+                  {state === "done" ? <Check className="h-4 w-4" /> : i + 1}
+                </div>
+                <div className={`text-xs sm:text-sm font-medium hidden sm:block ${labelCls}`}>{label}</div>
+              </li>
+            );
+          })}
         </ol>
 
         <div className="mt-8 card-soft p-6 sm:p-8">

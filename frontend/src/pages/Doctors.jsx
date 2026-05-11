@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Award, Calendar, ChevronRight, Stethoscope } from "lucide-react";
-import { api, HOSPITAL } from "@/lib/api";
+import { api } from "@/lib/api";
+import { resolvePhotoUrl } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -13,8 +14,12 @@ export default function DoctorsPage() {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    api.get("/doctors").then((r) => setDoctors(r.data || [])).catch(() => {});
-    api.get("/specialities").then((r) => setSpecialities(r.data || [])).catch(() => {});
+    api.get("/doctors")
+      .then((r) => setDoctors(r.data || []))
+      .catch((err) => console.warn("Failed to load doctors", err));
+    api.get("/specialities")
+      .then((r) => setSpecialities(r.data || []))
+      .catch((err) => console.warn("Failed to load specialities", err));
   }, []);
 
   const filtered = useMemo(() => {
@@ -61,7 +66,7 @@ export default function DoctorsPage() {
                 <div key={d.id} className="card-soft overflow-hidden hover:-translate-y-1 transition-transform" data-testid={`doctor-card-${d.id}`}>
                   <div className="aspect-[5/4] bg-muted overflow-hidden">
                     <img
-                      src={d.photo_url ? `${HOSPITAL ? '' : ''}${d.photo_url.startsWith('/api') ? process.env.REACT_APP_BACKEND_URL + d.photo_url : d.photo_url}` : PLACEHOLDER}
+                      src={resolvePhotoUrl(d.photo_url, PLACEHOLDER)}
                       alt={d.name}
                       className="w-full h-full object-cover"
                     />

@@ -13,7 +13,9 @@ export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    api.get("/specialities").then((r) => setSpecs(r.data || [])).catch(() => {});
+    api.get("/specialities")
+      .then((r) => setSpecs(r.data || []))
+      .catch((err) => console.warn("Failed to load specialities", err));
   }, []);
 
   const submit = async (e) => {

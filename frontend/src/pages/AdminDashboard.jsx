@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { LogOut, Plus, Trash2, Upload, Users2, CalendarCheck, Inbox, RefreshCw, Save, Pencil, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { api, formatApiErrorDetail, HOSPITAL } from "@/lib/api";
+import { resolvePhotoUrl } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,7 +20,7 @@ export default function AdminDashboardPage() {
   const [contacts, setContacts] = useState([]);
   const [specs, setSpecs] = useState([]);
 
-  const loadAll = async () => {
+  const loadAll = useCallback(async () => {
     try {
       const [d, a, c, s] = await Promise.all([
         api.get("/doctors"),
@@ -31,14 +32,14 @@ export default function AdminDashboardPage() {
       setAppts(a.data || []);
       setContacts(c.data || []);
       setSpecs(s.data || []);
-    } catch (e) {
-      // ignored - render still works
+    } catch (err) {
+      console.error("Failed to load admin data", err);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (user && user.role === "admin") loadAll();
-  }, [user]);
+  }, [user, loadAll]);
 
   if (loading) return <div className="container-narrow py-20 text-center text-foreground/60">Loading…</div>;
   if (!user || user.role !== "admin") return <Navigate to="/admin/login" replace />;
@@ -235,7 +236,7 @@ function DoctorsManager({ doctors, specs, reload }) {
         <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
           {doctors.map((d) => (
             <div key={d.id} className={`p-3 rounded-xl border ${editing?.id === d.id ? "border-primary bg-primary/5" : "border-border/60 hover:border-primary/40"} flex items-center gap-3`}>
-              <img src={d.photo_url ? (d.photo_url.startsWith("/api") ? `${process.env.REACT_APP_BACKEND_URL}${d.photo_url}` : d.photo_url) : PLACEHOLDER} alt="" className="h-12 w-12 rounded-lg object-cover" />
+              <img src={resolvePhotoUrl(d.photo_url, PLACEHOLDER)} alt="" className="h-12 w-12 rounded-lg object-cover" />
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-sm truncate">{d.name}</div>
                 <div className="text-xs text-foreground/55 truncate">{d.department} · <span className="font-mono">{d.experience_years} yrs</span></div>
@@ -273,7 +274,7 @@ function DoctorsManager({ doctors, specs, reload }) {
             </div>
 
             <div className="mt-4 flex items-center gap-3">
-              <img src={editing.photo_url ? (editing.photo_url.startsWith("/api") ? `${process.env.REACT_APP_BACKEND_URL}${editing.photo_url}` : editing.photo_url) : PLACEHOLDER} alt="" className="h-16 w-16 rounded-xl object-cover" />
+              <img src={resolvePhotoUrl(editing.photo_url, PLACEHOLDER)} alt="" className="h-16 w-16 rounded-xl object-cover" />
               <input type="file" ref={fileRef} className="hidden" accept="image/png,image/jpeg,image/webp" onChange={upload} />
               <Button variant="outline" size="sm" className="border-primary/30 text-primary" disabled={!editing.id} onClick={() => fileRef.current?.click()} data-testid="upload-photo-btn">
                 <Upload className="h-4 w-4 mr-1" /> {editing.id ? "Upload photo" : "Save doctor first to upload"}

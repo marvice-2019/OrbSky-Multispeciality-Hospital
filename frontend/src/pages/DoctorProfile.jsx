@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Award, Calendar, IndianRupee, MapPin, Phone, Stethoscope, ChevronLeft } from "lucide-react";
 import { api, HOSPITAL } from "@/lib/api";
+import { resolvePhotoUrl } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
 
 const PLACEHOLDER = "https://images.unsplash.com/photo-1631558554226-fb65b25aa939?crop=entropy&cs=srgb&fm=jpg&q=85&w=800";
@@ -12,17 +13,18 @@ export default function DoctorProfilePage() {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    api.get(`/doctors/${id}`).then((r) => setDoc(r.data)).catch((e) => setErr("Doctor not found"));
+    api.get(`/doctors/${id}`)
+      .then((r) => setDoc(r.data))
+      .catch((e) => {
+        console.error("Failed to load doctor", e);
+        setErr("Doctor not found");
+      });
   }, [id]);
 
   if (err) return <div className="container-narrow py-20 text-center text-foreground/60">{err}</div>;
   if (!doc) return <div className="container-narrow py-20 text-center text-foreground/60">Loading…</div>;
 
-  const imgSrc = doc.photo_url
-    ? doc.photo_url.startsWith("/api")
-      ? `${process.env.REACT_APP_BACKEND_URL}${doc.photo_url}`
-      : doc.photo_url
-    : PLACEHOLDER;
+  const imgSrc = resolvePhotoUrl(doc.photo_url, PLACEHOLDER);
 
   return (
     <div data-testid="doctor-profile-page" className="bg-primary/5 min-h-[60vh]">

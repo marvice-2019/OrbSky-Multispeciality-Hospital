@@ -602,7 +602,8 @@ async def serve_file(path: str):
         data, content_type = get_object(path)
     except requests.HTTPError:
         raise HTTPException(status_code=404, detail="File not found")
-    return Response(content=data, media_type=content_type)
+    else:
+        return Response(content=data, media_type=content_type)
 
 
 # ----------------------------------------------------------------------

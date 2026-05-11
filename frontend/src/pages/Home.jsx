@@ -22,8 +22,12 @@ export default function HomePage() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    api.get("/specialities").then((r) => setSpecialities(r.data || [])).catch(() => {});
-    api.get("/reviews").then((r) => setReviews(r.data || [])).catch(() => {});
+    api.get("/specialities")
+      .then((r) => setSpecialities(r.data || []))
+      .catch((err) => console.warn("Failed to load specialities", err));
+    api.get("/reviews")
+      .then((r) => setReviews(r.data || []))
+      .catch((err) => console.warn("Failed to load reviews", err));
   }, []);
 
   const featured = specialities.filter((s) => s.featured).slice(0, 6);
@@ -164,7 +168,9 @@ export default function HomePage() {
             {reviews.slice(0, 6).map((r) => (
               <Card key={r.id} className="p-6 border-border/60 shadow-soft" data-testid={`review-card-${r.id}`}>
                 <div className="flex gap-0.5 text-amber-400">
-                  {Array.from({ length: r.rating }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                  {Array.from({ length: r.rating }).map((_, i) => (
+                    <Star key={`star-${r.id}-${i}`} className="h-4 w-4 fill-current" />
+                  ))}
                 </div>
                 <p className="mt-3 text-sm text-foreground/80 leading-relaxed">&ldquo;{r.comment}&rdquo;</p>
                 <div className="mt-4 pt-4 border-t border-border/50 flex items-center gap-3">

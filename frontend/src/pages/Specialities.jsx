@@ -8,7 +8,9 @@ export default function SpecialitiesPage() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    api.get("/specialities").then((r) => setItems(r.data || [])).catch(() => {});
+    api.get("/specialities")
+      .then((r) => setItems(r.data || []))
+      .catch((err) => console.warn("Failed to load specialities", err));
   }, []);
 
   return (
