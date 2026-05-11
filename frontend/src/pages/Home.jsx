@@ -64,21 +64,20 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        {/* Trust strip */}
-        <div className="relative">
-          <div className="container-narrow -mb-12">
-            <div className="bg-white card-soft border border-border/60 rounded-2xl p-4 sm:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-soft">
-              <TrustItem icon={Star} label="Google Rating" value={`${HOSPITAL.rating}★`} sub={`${HOSPITAL.reviewCount} reviews`} color="text-amber-500" />
-              <TrustItem icon={Clock} label="Open" value="24/7" sub="Round the clock" color="text-primary" />
-              <TrustItem icon={ShieldCheck} label="Specialities" value="20+" sub="Multi-discipline" color="text-secondary" />
-              <TrustItem icon={Ambulance} label="Ambulance" value="On Call" sub="ACLS-ready" color="text-emergency" />
-            </div>
-          </div>
+      </section>
+
+      {/* TRUST STRIP — sits between hero and next section, half-overlapping the hero bottom */}
+      <section className="container-narrow relative z-10 -mt-12 sm:-mt-16">
+        <div className="bg-white border border-border/60 rounded-2xl p-4 sm:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-[0_20px_60px_-15px_rgba(10,106,191,0.25)]">
+          <TrustItem icon={Star} label="Google Rating" value={`${HOSPITAL.rating}★`} sub={`${HOSPITAL.reviewCount} reviews`} color="text-amber-500" />
+          <TrustItem icon={Clock} label="Open" value="24/7" sub="Round the clock" color="text-primary" />
+          <TrustItem icon={ShieldCheck} label="Specialities" value="20+" sub="Multi-discipline" color="text-secondary" />
+          <TrustItem icon={Ambulance} label="Ambulance" value="On Call" sub="ACLS-ready" color="text-emergency" />
         </div>
       </section>
 
       {/* SPECIALITY CAROUSEL */}
-      <section className="section-pad pt-24">
+      <section className="section-pad pt-16 sm:pt-20">
         <div className="container-narrow">
           <SectionHeader eyebrow="Featured Departments" title="Care across every speciality" subtitle="Quick access to our most-visited departments. Tap any to learn more." />
           <div className="mt-10 flex gap-4 overflow-x-auto scrollbar-thin pb-4 snap-x" data-testid="speciality-carousel">
