@@ -7,16 +7,8 @@ export default function Footer() {
     <footer className="bg-[#0d1729] text-white/85" data-testid="site-footer">
       <div className="container-narrow py-14 grid gap-10 md:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-secondary grid place-items-center font-heading font-bold">
-              O
-            </div>
-            <div>
-              <div className="font-heading font-bold text-white">OrbSky</div>
-              <div className="text-[10px] uppercase tracking-[0.18em] text-white/60">
-                Multispeciality
-              </div>
-            </div>
+          <div className="bg-white rounded-2xl p-3 inline-block mb-4">
+            <img src="/assets/logo.png" alt="OrbSky Hospital" className="h-12 w-auto object-contain" />
           </div>
           <p className="text-sm text-white/70 leading-relaxed">
             JP Nagar&apos;s trusted multispeciality hospital. 20+ departments. 24/7 emergency care.

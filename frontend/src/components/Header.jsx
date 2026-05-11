@@ -28,17 +28,16 @@ export default function Header() {
       data-testid="site-header"
       className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-border/60"
     >
-      <div className="container-narrow flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2" data-testid="logo-link">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-secondary grid place-items-center text-white font-heading font-bold">
-            O
-          </div>
-          <div className="leading-tight">
-            <div className="font-heading font-bold text-base tracking-tight">OrbSky</div>
-            <div className="text-[10px] uppercase tracking-[0.18em] text-foreground/60">
-              Multispeciality
-            </div>
-          </div>
+      <div className="container-narrow flex h-20 items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-2.5" data-testid="logo-link">
+          <img
+            src="/assets/logo.png"
+            alt="OrbSky Hospital"
+            className="h-12 sm:h-14 w-auto object-contain"
+          />
+          <span className="hidden sm:inline-block text-[10px] uppercase tracking-[0.22em] text-foreground/55 border-l border-border/60 pl-2.5">
+            Multispeciality
+          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1" data-testid="primary-nav">
