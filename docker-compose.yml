@@ -1,0 +1,66 @@
+# =============================================================================
+# OrbSky Hospital — full stack (Mongo + FastAPI + React build served by Nginx)
+# =============================================================================
+# Usage:
+#   1. cp .env.example .env  (and fill in real secrets)
+#   2. docker compose build
+#   3. docker compose up -d
+#   4. point a reverse proxy (Nginx/Caddy) on the host at:
+#        - frontend  -> http://127.0.0.1:8080
+#        - backend   -> http://127.0.0.1:8001  (under path /api)
+#      See deploy/nginx/orbsky.conf for a ready-made host-level reverse proxy.
+# =============================================================================
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: orbsky_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    # Mongo not exposed to the host by default — only the backend container talks to it.
+    networks:
+      - orbsky_net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: orbsky_backend
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: ${MONGO_URL}
+      DB_NAME: ${MONGO_DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      EMERGENT_LLM_KEY: ${EMERGENT_LLM_KEY}
+      APP_NAME: ${APP_NAME}
+    ports:
+      - "127.0.0.1:8001:8001"  # bind to localhost only; reverse proxy fronts it
+    networks:
+      - orbsky_net
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
+    container_name: orbsky_frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"   # bind to localhost only; reverse proxy fronts it
+    networks:
+      - orbsky_net
+
+volumes:
+  mongo_data:
+
+networks:
+  orbsky_net:
+    driver: bridge
