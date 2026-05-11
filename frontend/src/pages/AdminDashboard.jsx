@@ -49,7 +49,7 @@ export default function AdminDashboardPage() {
       <div className="border-b border-border/60 bg-white">
         <div className="container-narrow py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/assets/logo.png" alt="OrbSky Hospital" className="h-10 w-auto object-contain" />
+            <img src={`${process.env.PUBLIC_URL}/assets/logo.png`} alt="OrbSky Hospital" className="h-10 w-auto object-contain" />
             <div>
               <div className="font-heading font-bold">Admin Console</div>
               <div className="text-xs text-foreground/55">{user.email}</div>

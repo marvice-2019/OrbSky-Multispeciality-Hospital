@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="container-narrow py-14 grid gap-10 md:grid-cols-4">
         <div>
           <div className="bg-white rounded-2xl p-3 inline-block mb-4">
-            <img src="/assets/logo.png" alt="OrbSky Hospital" className="h-12 w-auto object-contain" />
+            <img src={`${process.env.PUBLIC_URL}/assets/logo.png`} alt="OrbSky Hospital" className="h-12 w-auto object-contain" />
           </div>
           <p className="text-sm text-white/70 leading-relaxed">
             JP Nagar&apos;s trusted multispeciality hospital. 20+ departments. 24/7 emergency care.

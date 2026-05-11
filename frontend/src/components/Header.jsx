@@ -31,7 +31,7 @@ export default function Header() {
       <div className="container-narrow flex h-24 items-center justify-between gap-4">
         <Link to="/" className="flex items-center -my-2" data-testid="logo-link">
           <img
-            src="/assets/logo.png"
+            src={`${process.env.PUBLIC_URL}/assets/logo.png`}
             alt="OrbSky Hospital"
             className="h-20 sm:h-24 lg:h-28 w-auto object-contain"
           />
